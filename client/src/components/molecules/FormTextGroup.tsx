@@ -1,11 +1,18 @@
 import Form from 'react-bootstrap/Form';
-import FormTextControl from '@atoms/FormTextControl';
+import FormTextControl, { FormControlProps } from 'components/atoms/FormTextControl';
 
-export function FormTextGroup({ label, className, hasSolidBackground = true, ...props }) {
+type FormTextGroupProps = FormControlProps & {
+  label: string;
+  controlId: string;
+};
+
+function FormTextGroup({ label, controlId, ...controlProps }: FormTextGroupProps) {
   return (
-    <Form.Group className="mb-3" controlId="name">
+    <Form.Group className="mb-3" controlId={controlId}>
       <Form.Label>{label}</Form.Label>
-      <FormTextControl name="name" placeholder="Enter name" />
+      <FormTextControl {...controlProps} />
     </Form.Group>
   );
 }
+
+export default FormTextGroup;

@@ -1,10 +1,12 @@
 import { useMemo, useCallback } from 'react';
-import { FormikValues } from 'formik';
+import { FormikValues, FormikHelpers, FormikProvider } from 'formik';
 import { handleBackEndValidation } from 'utils/handleBackendValidation';
-import { FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { useForm } from 'hooks/form/useForm';
 import { buildValidationSchema } from 'utils/buildValidationSchema';
+import FormTextGroup from 'components/molecules/FormTextGroup';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export interface LoginInput extends FormikValues {
   email: string;
@@ -20,7 +22,7 @@ export interface LoginOutput extends FormikValues {
   };
 }
 
-function LoginForm() {
+function LoginFormCard() {
   const initialValues = useMemo<LoginInput>(
     () => ({
       email: '',
@@ -35,14 +37,14 @@ function LoginForm() {
       buildValidationSchema<LoginInput>({
         username: yup.string().required().max(50),
         email: yup.string().email().required().max(50),
-        password: yup.string().required().max(5),
+        password: yup.string().required().max(10),
       }),
     [],
   );
 
   const handleSubmit = useCallback(async (values: LoginInput, formikHelpers: FormikHelpers<LoginInput>) => {
     const submitWithValidation = handleBackEndValidation<LoginInput>(async (values) => {
-      return 'f';
+      return console.log('success');
     });
     const response = (await submitWithValidation(values, formikHelpers)) as LoginOutput;
     if (response) {
@@ -55,7 +57,36 @@ function LoginForm() {
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
   });
-  return <div></div>;
+  return (
+    <FormikProvider value={formik}>
+      <Form onSubmit={formik.handleSubmit}>
+          <FormTextGroup
+            name="username"
+            label="Username"
+            controlId="username"
+            placeholder="Enter username"
+          />
+          <FormTextGroup
+            name="email"
+            label="Email"
+            controlId="email"
+            placeholder="Enter email"
+          />
+          <FormTextGroup
+            name="password"
+            label="Password"
+            controlId="password"
+            placeholder="Enter password"
+            type="password"
+          />
+          <div className="mb-3">
+            <Button variant="primary" type="submit" className="w-100">
+              Login
+            </Button>
+          </div>
+      </Form>
+    </FormikProvider>
+  );
 }
 
-export default LoginForm;
+export default LoginFormCard;

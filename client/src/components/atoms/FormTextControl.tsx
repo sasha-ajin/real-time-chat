@@ -2,7 +2,7 @@ import { Form, FormControlProps as BaseFormControlProps } from 'react-bootstrap'
 import { useFormikContext } from 'formik';
 import clsx from 'clsx';
 
-type FormControlProps = Omit<BaseFormControlProps, 'size'> & {
+export type FormControlProps = Omit<BaseFormControlProps, 'size'> & {
   name: string;
   className?: string;
   hasSolidBackground?: boolean;
