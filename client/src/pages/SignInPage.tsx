@@ -1,11 +1,11 @@
-import LoginFormCard from 'components/organisms/LoginFormCard';
+import SignInFormCard from '@organisms/SignInFormCard';
 import CenteredCardTemplate from 'components/templates/CenteredCardTemplate';
 
-export function LoginPage() {
+export function SignInPage() {
   return (
     <div>
       <CenteredCardTemplate>
-        <LoginFormCard />
+        <SignInFormCard />
       </CenteredCardTemplate>
     </div>
   );

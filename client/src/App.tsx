@@ -1,10 +1,12 @@
-import { LoginPage } from 'pages/LoginPage';
+import { SignUpPage } from 'pages/SignUpPage';
+import { SignInPage } from 'pages/SignInPage';
 import React from 'react';
 
 function App() {
   return (
     <div className="App">
-      <LoginPage/>
+      <SignUpPage/>
+      <SignInPage/>
     </div>
   );
 }

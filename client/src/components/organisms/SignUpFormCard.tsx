@@ -6,15 +6,15 @@ import { useForm } from 'hooks/form/useForm';
 import { buildValidationSchema } from 'utils/buildValidationSchema';
 import FormTextGroup from 'components/molecules/FormTextGroup';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import PrimarySubmitButtonGroup from 'components/molecules/PrimarySubmitButtonGroup';
 
-export interface LoginInput extends FormikValues {
+export interface SignUpInput extends FormikValues {
   email: string;
   username: string;
   password: string;
 }
 
-export interface LoginOutput extends FormikValues {
+export interface SignUpOutput extends FormikValues {
   user: {
     _id: string;
     email: string;
@@ -22,8 +22,8 @@ export interface LoginOutput extends FormikValues {
   };
 }
 
-function LoginFormCard() {
-  const initialValues = useMemo<LoginInput>(
+function SignUpFormCard() {
+  const initialValues = useMemo<SignUpInput>(
     () => ({
       email: '',
       username: '',
@@ -34,7 +34,7 @@ function LoginFormCard() {
 
   const validationSchema = useMemo(
     () =>
-      buildValidationSchema<LoginInput>({
+      buildValidationSchema<SignUpInput>({
         username: yup.string().required().max(50),
         email: yup.string().email().required().max(50),
         password: yup.string().required().max(10),
@@ -42,17 +42,17 @@ function LoginFormCard() {
     [],
   );
 
-  const handleSubmit = useCallback(async (values: LoginInput, formikHelpers: FormikHelpers<LoginInput>) => {
-    const submitWithValidation = handleBackEndValidation<LoginInput>(async (values) => {
+  const handleSubmit = useCallback(async (values: SignUpInput, formikHelpers: FormikHelpers<SignUpInput>) => {
+    const submitWithValidation = handleBackEndValidation<SignUpInput>(async (values) => {
       return console.log('success');
     });
-    const response = (await submitWithValidation(values, formikHelpers)) as LoginOutput;
+    const response = (await submitWithValidation(values, formikHelpers)) as SignUpOutput;
     if (response) {
       formik.resetForm();
     }
   }, []);
 
-  const formik = useForm<LoginInput>({
+  const formik = useForm<SignUpInput>({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
@@ -79,14 +79,10 @@ function LoginFormCard() {
             placeholder="Enter password"
             type="password"
           />
-          <div className="mb-3">
-            <Button variant="primary" type="submit" className="w-100">
-              Login
-            </Button>
-          </div>
+          <PrimarySubmitButtonGroup>Sign Up</PrimarySubmitButtonGroup>
       </Form>
     </FormikProvider>
   );
 }
 
-export default LoginFormCard;
+export default SignUpFormCard;
