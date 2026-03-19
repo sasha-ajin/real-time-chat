@@ -1,5 +1,5 @@
 import Form from 'react-bootstrap/Form';
-import FormTextControl, { FormControlProps } from '@atoms/FormTextControl';
+import FormTextControl, { FormControlProps } from 'components/atoms/FormTextControl';
 
 type FormTextGroupProps = FormControlProps & {
   label: string;
