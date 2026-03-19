@@ -1,9 +1,10 @@
+import { LoginPage } from 'pages/LoginPage';
 import React from 'react';
 
 function App() {
   return (
     <div className="App">
-      Loren Ipsum
+      <LoginPage/>
     </div>
   );
 }
