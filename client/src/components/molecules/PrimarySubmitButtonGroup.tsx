@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import PrimarySubmitButtonControl, {
   PrimarySubmitButtonControlProps,
-} from 'components/atoms/PrimarySubmitButtonControl';
+} from '@atoms/PrimarySubmitButtonControl';
 
 type PrimarySubmitButtonGroupProps = PrimarySubmitButtonControlProps & {
   className?: string;

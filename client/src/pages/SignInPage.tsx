@@ -1,4 +1,4 @@
-import SignInFormCard from '@organisms/SignInFormCard';
+import SignInFormCard from 'components/organisms/SignInFormCard';
 import CenteredCardTemplate from 'components/templates/CenteredCardTemplate';
 
 export function SignInPage() {

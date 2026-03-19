@@ -4,9 +4,9 @@ import { handleBackEndValidation } from 'utils/handleBackendValidation';
 import * as yup from 'yup';
 import { useForm } from 'hooks/form/useForm';
 import { buildValidationSchema } from 'utils/buildValidationSchema';
-import FormTextGroup from 'components/molecules/FormTextGroup';
+import FormTextGroup from '@molecules/FormTextGroup';
 import Form from 'react-bootstrap/Form';
-import PrimarySubmitButtonGroup from 'components/molecules/PrimarySubmitButtonGroup';
+import PrimarySubmitButtonGroup from '@molecules/PrimarySubmitButtonGroup';
 
 export interface SignUpInput extends FormikValues {
   email: string;
