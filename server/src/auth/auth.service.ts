@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
+import { UserDocument } from '../users/user.schema';
 import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
@@ -26,22 +27,27 @@ export class AuthService {
   }
 
   async signUp(dto: SignUpDto): Promise<{ access_token: string }> {
-    const existingByUsername = await this.usersService.findOne(dto.username);
-    if (existingByUsername) {
-      throw new ConflictException('Username already exists');
-    }
-
-    const existingByEmail = await this.usersService.findByEmail(dto.email);
-    if (existingByEmail) {
-      throw new ConflictException('Email already exists');
-    }
-
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    const user = await this.usersService.create({
-      username: dto.username,
-      email: dto.email,
-      password: hashedPassword,
-    });
+
+    let user: UserDocument;
+
+    try {
+      user = await this.usersService.create({
+        username: dto.username,
+        email: dto.email,
+        password: hashedPassword,
+      });
+    } catch (error: any) {
+      if (error?.code === 11000) {
+        const field = error.keyPattern
+          ? Object.keys(error.keyPattern as Record<string, unknown>)[0]
+          : undefined;
+        throw new ConflictException(
+          field ? `${field} already exists` : 'Duplicate value',
+        );
+      }
+      throw error;
+    }
 
     const payload = { sub: user._id, username: user.username };
     return {
@@ -55,12 +61,13 @@ export class AuthService {
   ): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(username);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Wrong username');
     }
 
     const isPasswordValid = await bcrypt.compare(pass, user.password);
+
     if (!isPasswordValid) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Wrong password');
     }
 
     const payload = { sub: user._id, username: user.username };
