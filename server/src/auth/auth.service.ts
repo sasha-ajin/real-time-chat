@@ -10,10 +10,20 @@ import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
 export class AuthService {
+  private blacklistedTokens = new Set<string>();
+
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
+
+  signOut(token: string): void {
+    this.blacklistedTokens.add(token);
+  }
+
+  isTokenBlacklisted(token: string): boolean {
+    return this.blacklistedTokens.has(token);
+  }
 
   async signUp(dto: SignUpDto): Promise<{ access_token: string }> {
     const existingByUsername = await this.usersService.findOne(dto.username);

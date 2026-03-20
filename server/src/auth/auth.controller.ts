@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -28,8 +27,11 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  signOut(@Request() req) {
+    const token = req.headers.authorization?.split(' ')[1];
+    this.authService.signOut(token);
+    return { message: 'Logged out' };
   }
 }
