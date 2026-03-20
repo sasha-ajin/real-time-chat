@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot('mongodb://localhost:27017/chat-app'),
     AuthModule,
   ],

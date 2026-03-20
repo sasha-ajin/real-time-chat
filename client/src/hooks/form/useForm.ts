@@ -9,7 +9,7 @@ import * as yup from 'yup';
 type FormConfig<T extends FormikValues> = {
   initialValues: T;
   initialStatus?: unknown;
-  validationSchema?: yup.ObjectSchema<Record<keyof T, any>>;
+  validationSchema?: yup.ObjectSchema<Record<keyof T, unknown>>;
   onSubmit?: (
     values: T,
     formikHelpers: FormikHelpers<T>,
