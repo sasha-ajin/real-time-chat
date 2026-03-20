@@ -13,7 +13,7 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '1h' }, // I did not implement refresh token because that was not provided in an assignment
       }),
     }),
   ],
