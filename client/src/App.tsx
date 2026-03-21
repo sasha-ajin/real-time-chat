@@ -5,6 +5,7 @@ import { useAppDispatch, RootState } from 'store/store';
 import { setupAxios } from 'store/setupAxios';
 import { useStore } from 'react-redux';
 import { AppRoutes } from 'routes/AppRoutes';
+import { Navigation } from 'components/organisms/Navigation';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navigation />
       <AppRoutes />
     </div>
   );
