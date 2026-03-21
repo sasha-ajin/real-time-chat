@@ -7,6 +7,8 @@ import { buildValidationSchema } from 'utils/buildValidationSchema';
 import FormTextGroup from 'components/molecules/FormTextGroup';
 import Form from 'react-bootstrap/Form';
 import PrimarySubmitButtonGroup from 'components/molecules/PrimarySubmitButtonGroup';
+import { useAppDispatch } from 'store/store';
+import { signUp } from 'modules/auth/service';
 
 export interface SignUpInput extends FormikValues {
   email: string;
@@ -14,15 +16,9 @@ export interface SignUpInput extends FormikValues {
   password: string;
 }
 
-export interface SignUpOutput extends FormikValues {
-  user: {
-    _id: string;
-    email: string;
-    username: string;
-  };
-}
-
 function SignUpFormCard() {
+  const dispatch = useAppDispatch();
+
   const initialValues = useMemo<SignUpInput>(
     () => ({
       email: '',
@@ -44,19 +40,25 @@ function SignUpFormCard() {
 
   const handleSubmit = useCallback(async (values: SignUpInput, formikHelpers: FormikHelpers<SignUpInput>) => {
     const submitWithValidation = handleBackEndValidation<SignUpInput>(async (values) => {
-      return console.log('success');
+      const result = await dispatch(signUp({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      })).unwrap();
+      return result;
     });
-    const response = (await submitWithValidation(values, formikHelpers)) as SignUpOutput;
+    const response = await submitWithValidation(values, formikHelpers);
     if (response) {
       formik.resetForm();
     }
-  }, []);
+  }, [dispatch]);
 
   const formik = useForm<SignUpInput>({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
   });
+
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={formik.handleSubmit}>

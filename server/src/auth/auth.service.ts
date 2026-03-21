@@ -26,7 +26,7 @@ export class AuthService {
     return this.blacklistedTokens.has(token);
   }
 
-  async signUp(dto: SignUpDto): Promise<{ access_token: string }> {
+  async signUp(dto: SignUpDto): Promise<{ access_token: string; username: string }> {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
     let user: UserDocument;
@@ -52,13 +52,11 @@ export class AuthService {
     const payload = { sub: user._id, username: user.username };
     return {
       access_token: await this.jwtService.signAsync(payload),
+      username: dto.username,
     };
   }
 
-  async signIn(
-    username: string,
-    pass: string,
-  ): Promise<{ access_token: string }> {
+  async signIn(username: string, pass: string) {
     const user = await this.usersService.findOne(username);
     if (!user) {
       throw new UnauthorizedException('Wrong username');
@@ -73,6 +71,7 @@ export class AuthService {
     const payload = { sub: user._id, username: user.username };
     return {
       access_token: await this.jwtService.signAsync(payload),
+      username: username,
     };
   }
 }
