@@ -26,7 +26,9 @@ export class AuthService {
     return this.blacklistedTokens.has(token);
   }
 
-  async signUp(dto: SignUpDto): Promise<{ access_token: string; username: string }> {
+  async signUp(
+    dto: SignUpDto,
+  ): Promise<{ access_token: string; username: string }> {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
     let user: UserDocument;

@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react';
 import axios from 'axios';
 
-import { SignUpPage } from 'pages/SignUpPage';
-import { SignInPage } from 'pages/SignInPage';
 import { useAppDispatch, RootState } from 'store/store';
 import { setupAxios } from 'store/setupAxios';
 import { useStore } from 'react-redux';
+import { AppRoutes } from 'routes/AppRoutes';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -21,8 +20,7 @@ function App() {
 
   return (
     <div className="App">
-      <SignUpPage/>
-      <SignInPage/>
+      <AppRoutes />
     </div>
   );
 }
