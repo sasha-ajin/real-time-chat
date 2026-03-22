@@ -18,6 +18,14 @@ export class UsersService {
     return this.userModel.findOne({ email }).exec();
   }
 
+  async searchByNickname(nickname: string): Promise<UserDocument[]> {
+    return this.userModel
+      .find({ username: { $regex: nickname, $options: 'i' } })
+      .select('username email')
+      .limit(20)
+      .exec();
+  }
+
   async create(userData: {
     username: string;
     email: string;
