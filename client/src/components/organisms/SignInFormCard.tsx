@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import PrimarySubmitButtonGroup from 'components/molecules/PrimarySubmitButtonGroup';
 import { useAppDispatch } from 'store/store';
 import { signIn } from 'modules/auth/service';
+import { useNavigate } from 'react-router-dom';
 
 export interface SignInInput extends FormikValues {
   username: string;
@@ -16,6 +17,7 @@ export interface SignInInput extends FormikValues {
 }
 
 function SignInFormCard() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const initialValues = useMemo<SignInInput>(
@@ -46,6 +48,7 @@ function SignInFormCard() {
     const response = await submitWithValidation(values, formikHelpers);
     if (response) {
       formik.resetForm();
+      navigate('/');
     }
   }, [dispatch]);
 

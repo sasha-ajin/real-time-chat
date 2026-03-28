@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import PrimarySubmitButtonGroup from 'components/molecules/PrimarySubmitButtonGroup';
 import { useAppDispatch } from 'store/store';
 import { signUp } from 'modules/auth/service';
+import { useNavigate } from 'react-router-dom';
 
 export interface SignUpInput extends FormikValues {
   email: string;
@@ -17,6 +18,7 @@ export interface SignUpInput extends FormikValues {
 }
 
 function SignUpFormCard() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const initialValues = useMemo<SignUpInput>(
@@ -50,6 +52,7 @@ function SignUpFormCard() {
     const response = await submitWithValidation(values, formikHelpers);
     if (response) {
       formik.resetForm();
+      navigate('/');
     }
   }, [dispatch]);
 
