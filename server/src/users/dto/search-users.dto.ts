@@ -4,5 +4,5 @@ export class SearchUsersDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  nickname: string;
+  userName: string;
 }

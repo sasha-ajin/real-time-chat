@@ -18,9 +18,9 @@ export class UsersService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async searchByNickname(nickname: string): Promise<UserDocument[]> {
+  async searchByUserName(userName: string): Promise<UserDocument[]> {
     return this.userModel
-      .find({ username: { $regex: nickname, $options: 'i' } })
+      .find({ username: { $regex: userName, $options: 'i' } })
       .select('username email')
       .limit(20)
       .exec();

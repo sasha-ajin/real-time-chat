@@ -8,8 +8,8 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @UseGuards(AuthGuard)
-  @Get('search')
+  @Get()
   search(@Query() dto: SearchUsersDto) {
-    return this.usersService.searchByNickname(dto.nickname);
+    return this.usersService.searchByUserName(dto.userName);
   }
 }
