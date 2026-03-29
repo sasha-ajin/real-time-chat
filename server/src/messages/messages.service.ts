@@ -12,6 +12,7 @@ export class MessagesService {
   async findByThread(threadId: string): Promise<MessageDocument[]> {
     return this.messageModel
       .find({ threadId: new Types.ObjectId(threadId) })
+      .populate('senderId', 'username')
       .sort({ createdAt: 1 })
       .exec();
   }
