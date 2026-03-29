@@ -3,6 +3,7 @@ import axios from 'axios';
 const SEARCH_USERS_ENDPOINT = '/users';
 
 export interface UserResult {
+  _id: string;
   username: string;
   email: string;
 }

@@ -10,7 +10,7 @@ import { NavBrand } from 'components/molecules/NavBrand';
 import { NavLinkList, NavLinkListProps } from 'components/molecules/NavLinkList';
 
 const NAV_ITEMS: NavLinkListProps['items'] = [
-  { to: '/threads', text: 'Threads', private: true },
+  { to: '/threads', text: 'Chat', private: true },
   { to: '/search-users', text: 'Search Users', private: true },
 ];
 

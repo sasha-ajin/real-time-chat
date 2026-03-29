@@ -2,11 +2,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
 import authSlice from 'modules/auth/store';
+import threadsSlice from 'modules/threads/store';
 
 export function createStore() {
   return configureStore({
     reducer: {
       auth: authSlice.reducer,
+      threads: threadsSlice.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
   });
