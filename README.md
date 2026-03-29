@@ -39,8 +39,3 @@ npm start
 
 The app opens at [http://localhost:3000](http://localhost:3000).
 
-### Environment Variables
-
-Backend environment variables are defined in `server/.env.development.local`:
-
-When running via Docker Compose, `MONGODB_URI` is automatically overridden to `mongodb://mongodb:27017/chat-app` to use the Docker network.
