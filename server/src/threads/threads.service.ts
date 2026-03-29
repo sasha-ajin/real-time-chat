@@ -28,16 +28,20 @@ export class ThreadsService {
       new Types.ObjectId(userB),
     ];
 
-    const thread = await this.threadModel
-      .findOneAndUpdate(
-        { participants: { $all: participantIds } },
-        { $setOnInsert: { participants: participantIds } },
-        { upsert: true, new: true },
-      )
+    const existing = await this.threadModel
+      .findOne({ participants: { $all: participantIds } })
       .populate('participants', 'username')
       .exec();
 
-    return thread!;
+    if (existing) {
+      return existing;
+    }
+
+    const thread = await this.threadModel.create({
+      participants: participantIds,
+    });
+
+    return thread.populate('participants', 'username');
   }
 
   async updateLastMessage(
