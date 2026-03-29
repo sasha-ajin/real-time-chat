@@ -8,6 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
+import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { MessagesService } from './messages.service';
 import { ThreadsService } from '../threads/threads.service';
 
@@ -20,7 +21,10 @@ export class MessagesController {
   ) {}
 
   @Get()
-  async getMessages(@Request() req: any, @Param('threadId') threadId: string) {
+  async getMessages(
+    @Request() req: AuthenticatedRequest,
+    @Param('threadId') threadId: string,
+  ) {
     const thread = await this.threadsService.findById(threadId);
 
     if (!thread) {

@@ -1,6 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 
+export interface PopulatedParticipant {
+  _id: Types.ObjectId;
+  username: string;
+}
+
 export type ThreadDocument = HydratedDocument<Thread>;
 
 @Schema({ _id: false })

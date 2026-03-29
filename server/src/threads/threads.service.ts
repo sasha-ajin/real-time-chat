@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Thread, ThreadDocument } from './thread.schema';
+import { PopulatedParticipant, Thread, ThreadDocument } from './thread.schema';
 
 @Injectable()
 export class ThreadsService {
@@ -54,8 +54,8 @@ export class ThreadsService {
   }
 
   isParticipant(thread: ThreadDocument, userId: string): boolean {
-    return thread.participants.some(
-      (p: any) => (p._id ?? p).toString() === userId,
+    return (thread.participants as unknown as PopulatedParticipant[]).some(
+      (p) => p._id.toString() === userId,
     );
   }
 }

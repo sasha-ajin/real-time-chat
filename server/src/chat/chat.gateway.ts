@@ -10,8 +10,18 @@ import {
 import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from '../auth/auth.service';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 import { ThreadsService } from '../threads/threads.service';
 import { MessagesService } from '../messages/messages.service';
+
+interface AuthenticatedSocketData {
+  userId: string;
+  username: string;
+}
+
+interface AuthenticatedSocket extends Socket {
+  data: AuthenticatedSocketData;
+}
 
 @WebSocketGateway({
   cors: {
@@ -30,10 +40,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private messagesService: MessagesService,
   ) {}
 
-  async handleConnection(client: Socket) {
+  async handleConnection(client: AuthenticatedSocket) {
     try {
-      const token =
-        client.handshake.auth?.token ||
+      const token: string | undefined =
+        (client.handshake.auth?.token as string) ||
         client.handshake.headers?.authorization?.split(' ')[1];
 
       if (!token) {
@@ -41,7 +51,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         return;
       }
 
-      const payload = await this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
 
       if (this.authService.isTokenBlacklisted(token)) {
         client.disconnect();
@@ -59,7 +69,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('joinThread')
   async handleJoinThread(
-    @ConnectedSocket() client: Socket,
+    @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { threadId: string },
   ) {
     const thread = await this.threadsService.findById(data.threadId);
@@ -77,7 +87,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('leaveThread')
   async handleLeaveThread(
-    @ConnectedSocket() client: Socket,
+    @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { threadId: string },
   ) {
     client.leave(data.threadId);
@@ -85,7 +95,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('sendMessage')
   async handleSendMessage(
-    @ConnectedSocket() client: Socket,
+    @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { threadId: string; text: string },
   ) {
     if (!data.text?.trim()) {
