@@ -3,6 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './user.schema';
 
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
@@ -19,8 +23,10 @@ export class UsersService {
   }
 
   async searchByUserName(userName: string): Promise<UserDocument[]> {
+    const safeUserName = escapeRegex(userName);
+
     return this.userModel
-      .find({ username: { $regex: userName, $options: 'i' } })
+      .find({ username: { $regex: safeUserName, $options: 'i' } })
       .select('username email')
       .limit(20)
       .exec();
