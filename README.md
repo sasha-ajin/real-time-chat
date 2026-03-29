@@ -6,6 +6,7 @@ A real-time messaging web application built with NestJS, React, MongoDB, and Soc
 
 - [Task Description](#task-description)
 - [Local Setup](#local-setup)
+- [Technical Decisions](#technical-decisions)
 
 ## Task Description
 
@@ -155,4 +156,14 @@ npm start
 ```
 
 The app opens at [http://localhost:3000](http://localhost:3000).
+
+## Technical Decisions
+
+### Backend
+
+1. **No refresh/reset tokens.** The task only requires JWT authentication and does not mention token rotation. For a test assignment, a single access token is sufficient — adding refresh tokens would introduce extra complexity (httpOnly cookies, a refresh endpoint, client-side token rotation logic) without meaningful benefit in this context. The sign-out flow uses an in-memory token blacklist (`Set<string>`) — this works for a single-server setup but does not survive server restarts. In production, this would be replaced with Redis or a database-backed store, but for a test assignment running on a single instance it is a reasonable trade-off.
+
+2. **Persistent WebSocket connection.** A single WebSocket connection is established at login and stays alive for the entire session. The client joins and leaves chat rooms via socket events (`joinThread` / `leaveThread`) instead of opening a new connection each time a chat is opened. Creating a new connection per chat would only make sense in an application where chat is a secondary feature and users rarely enter it — in a chat-first application, a persistent connection avoids repeated handshake and JWT verification overhead.
+
+3. **No transaction for message creation and thread last message update.** When a message is sent, two separate operations run sequentially: creating the message and updating the thread's `lastMessage` field. Under concurrent writes, the `lastMessage` on a thread could briefly show a non-latest message. A MongoDB transaction would guarantee atomicity but would add a performance cost on every message send. Since this is not a financial or order-critical operation, the trade-off is acceptable — the message itself is always saved correctly, and users see the correct message history when they open the chat. The `lastMessage` preview in the thread list is eventually consistent.
 
