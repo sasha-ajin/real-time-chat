@@ -39,7 +39,7 @@ npm start
 
 The app opens at [http://localhost:3000](http://localhost:3000).
 
-## Environment Variables
+### Environment Variables
 
 Backend environment variables are defined in `server/.env.development.local`:
 
