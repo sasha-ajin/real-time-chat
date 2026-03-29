@@ -47,10 +47,10 @@ function SignInFormCard() {
     });
     const response = await submitWithValidation(values, formikHelpers);
     if (response) {
-      formik.resetForm();
+      formikHelpers.resetForm();
       navigate('/');
     }
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const formik = useForm<SignInInput>({
     initialValues: initialValues,

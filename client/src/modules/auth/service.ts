@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export const SIGN_UP_ENDPOINT = '/auth/register';
 export const SIGN_IN_ENDPOINT = '/auth/login';
@@ -21,14 +21,30 @@ export interface AuthTokenResponse {
   username: string
 }
 
-export const signUp = createAsyncThunk('auth/signUp', async (payload: SignUpRequest) => {
-  const response = await axios.post<AuthTokenResponse>(SIGN_UP_ENDPOINT, payload);
-  return response.data;
+export const signUp = createAsyncThunk('auth/signUp', async (payload: SignUpRequest, { rejectWithValue }) => {
+  try {
+    const response = await axios.post<AuthTokenResponse>(SIGN_UP_ENDPOINT, payload);
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      return rejectWithValue(axiosError.response.data);
+    }
+    throw error;
+  }
 });
 
-export const signIn = createAsyncThunk('auth/signIn', async (payload: SignInRequest) => {
-  const response = await axios.post<AuthTokenResponse>(SIGN_IN_ENDPOINT, payload);
-  return response.data;
+export const signIn = createAsyncThunk('auth/signIn', async (payload: SignInRequest, { rejectWithValue }) => {
+  try {
+    const response = await axios.post<AuthTokenResponse>(SIGN_IN_ENDPOINT, payload);
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      return rejectWithValue(axiosError.response.data);
+    }
+    throw error;
+  }
 });
 
 export const signOut = createAsyncThunk('auth/signOut', async () => {
