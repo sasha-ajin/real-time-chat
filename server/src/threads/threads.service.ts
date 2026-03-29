@@ -26,22 +26,18 @@ export class ThreadsService {
     const participantIds = [
       new Types.ObjectId(userA),
       new Types.ObjectId(userB),
-    ];
+    ].sort((a, b) => a.toString().localeCompare(b.toString()));
 
-    const existing = await this.threadModel
-      .findOne({ participants: { $all: participantIds } })
+    const thread = await this.threadModel
+      .findOneAndUpdate(
+        { participants: participantIds },
+        { $setOnInsert: { participants: participantIds } },
+        { upsert: true, returnDocument: 'after' },
+      )
       .populate('participants', 'username')
       .exec();
 
-    if (existing) {
-      return existing;
-    }
-
-    const thread = await this.threadModel.create({
-      participants: participantIds,
-    });
-
-    return thread.populate('participants', 'username');
+    return thread;
   }
 
   async updateLastMessage(
