@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -22,6 +23,9 @@ export class ThreadsController {
 
   @Post()
   async createThread(@Request() req: any, @Body() dto: CreateThreadDto) {
+    if (req.user.sub === dto.participantId) {
+      throw new BadRequestException('Cannot create a chat with yourself');
+    }
     return this.threadsService.findOrCreate(req.user.sub, dto.participantId);
   }
 }

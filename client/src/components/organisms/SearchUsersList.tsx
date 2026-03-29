@@ -4,6 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { UserResult } from 'modules/users/service';
 import { createThread } from 'modules/threads/service';
+import { useAppSelector } from 'store/store';
 
 type SearchUsersListProps = {
   results: UserResult[];
@@ -12,6 +13,7 @@ type SearchUsersListProps = {
 
 function SearchUsersList({ results, loading }: SearchUsersListProps) {
   const navigate = useNavigate();
+  const currentUsername = useAppSelector((state) => state.auth.username);
   const [startingChat, setStartingChat] = useState<string | null>(null);
 
   if (results.length === 0) {
@@ -42,9 +44,13 @@ function SearchUsersList({ results, loading }: SearchUsersListProps) {
             variant="outline-primary"
             size="sm"
             onClick={() => handleStartChat(user._id)}
-            disabled={startingChat === user._id}
+            disabled={user.username === currentUsername || startingChat === user._id}
           >
-            {startingChat === user._id ? 'Opening...' : 'Chat'}
+            {user.username === currentUsername
+              ? "It's you"
+              : startingChat === user._id
+                ? 'Opening...'
+                : 'Chat'}
           </Button>
         </ListGroup.Item>
       ))}

@@ -111,10 +111,7 @@ export function ChatPage() {
         )}
 
         {messages.map((msg) => {
-          const senderParticipant = thread?.participants.find(
-            (p) => p._id === msg.senderId,
-          );
-          const isOwn = senderParticipant?.username === currentUsername;
+          const isOwn = msg.senderId.username === currentUsername;
           return <ChatBubble key={msg._id} message={msg} isOwn={isOwn} />;
         })}
         <div ref={messagesEndRef} />
