@@ -3,12 +3,14 @@ import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
 import authSlice from 'modules/auth/store';
 import threadsSlice from 'modules/threads/store';
+import messagesSlice from 'modules/messages/store';
 
 export function createStore() {
   return configureStore({
     reducer: {
       auth: authSlice.reducer,
       threads: threadsSlice.reducer,
+      messages: messagesSlice.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
   });
