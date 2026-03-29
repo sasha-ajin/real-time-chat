@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector, RootState } from 'store/store';
 import { setupAxios } from 'store/setupAxios';
 import { useStore } from 'react-redux';
 import { AppRoutes } from 'routes/AppRoutes';
-import { Navigation } from 'components/organisms/Navigation';
+import { Navigation } from 'components/templates/Navigation';
 import { connectSocket, disconnectSocket } from 'modules/chat/socket';
 
 function App() {

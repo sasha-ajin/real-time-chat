@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { signOut } from 'modules/auth/service';
 import { NavBrand } from 'components/molecules/NavBrand';
-import { NavLinkList, NavLinkListProps } from 'components/molecules/NavLinkList';
+import { NavLinkList, NavLinkListProps } from 'components/organisms/NavLinkList';
 
 const NAV_ITEMS: NavLinkListProps['items'] = [
   { to: '/threads', text: 'Chat', private: true },
