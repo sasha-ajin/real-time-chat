@@ -13,7 +13,12 @@ import { AuthService } from '../auth/auth.service';
 import { ThreadsService } from '../threads/threads.service';
 import { MessagesService } from '../messages/messages.service';
 
-@WebSocketGateway({ cors: { origin: '*' } })
+@WebSocketGateway({
+  cors: {
+    origin: process.env.CLIENT_URL ?? 'http://localhost:5173',
+    credentials: true,
+  },
+})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
