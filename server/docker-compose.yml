@@ -7,5 +7,15 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  server:
+    build: .
+    container_name: real-time-chat-server
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/chat-app
+    depends_on:
+      - mongodb
+
 volumes:
   mongo_data:
