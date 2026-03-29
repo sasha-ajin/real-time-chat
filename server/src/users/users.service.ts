@@ -18,10 +18,6 @@ export class UsersService {
       .exec();
   }
 
-  async findByEmail(email: string): Promise<UserDocument | null> {
-    return this.userModel.findOne({ email }).exec();
-  }
-
   async searchByUserName(userName: string): Promise<UserDocument[]> {
     const safeUserName = escapeRegex(userName);
 
