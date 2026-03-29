@@ -113,6 +113,13 @@ The following points were clarified with the team before starting:
 
 ## Local Setup
 
+### Clone the Repository
+
+```bash
+git clone git@github.com:sasha-ajin/real-time-chat.git
+cd real-time-chat
+```
+
 ### Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
