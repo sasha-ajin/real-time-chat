@@ -18,14 +18,12 @@ export class UsersService {
       .exec();
   }
 
-  async searchByUserName(userName: string): Promise<UserDocument[]> {
-    const safeUserName = escapeRegex(userName);
+  async searchByUserName(userName?: string): Promise<UserDocument[]> {
+    const filter = userName
+      ? { username: { $regex: escapeRegex(userName), $options: 'i' } }
+      : {};
 
-    return this.userModel
-      .find({ username: { $regex: safeUserName, $options: 'i' } })
-      .select('username email')
-      .limit(20)
-      .exec();
+    return this.userModel.find(filter).select('username email').exec();
   }
 
   async create(userData: {

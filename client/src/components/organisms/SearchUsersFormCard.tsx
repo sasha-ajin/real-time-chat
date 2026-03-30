@@ -27,7 +27,7 @@ function SearchUsersFormCard({ onSearch }: SearchUsersFormCardProps) {
   const validationSchema = useMemo(
     () =>
       buildValidationSchema<SearchUsersInput>({
-        userName: yup.string().required().max(50),
+        userName: yup.string().max(50),
       }),
     [],
   );

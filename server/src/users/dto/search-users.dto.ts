@@ -1,8 +1,8 @@
-import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class SearchUsersDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MaxLength(50)
-  userName: string;
+  userName?: string;
 }
