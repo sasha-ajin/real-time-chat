@@ -133,7 +133,6 @@ The backend (NestJS + MongoDB) runs entirely in Docker:
 ```bash
 cd server
 cp .env.example .env.development.local
-# Edit .env.development.local and set your own JWT_SECRET
 docker-compose up --build
 ```
 
