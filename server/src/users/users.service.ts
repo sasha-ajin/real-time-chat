@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './user.schema';
@@ -33,6 +33,18 @@ export class UsersService {
     email: string;
     password: string;
   }): Promise<UserDocument> {
-    return this.userModel.create(userData);
+    try {
+      return await this.userModel.create(userData);
+    } catch (error: any) {
+      if (error?.code === 11000) {
+        const field = error.keyPattern
+          ? Object.keys(error.keyPattern as Record<string, unknown>)[0]
+          : undefined;
+        throw new ConflictException(
+          field ? `${field} already exists` : 'Duplicate value',
+        );
+      }
+      throw error;
+    }
   }
 }

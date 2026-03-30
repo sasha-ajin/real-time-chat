@@ -1,12 +1,7 @@
-import {
-  ConflictException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
-import { UserDocument } from '../users/user.schema';
 import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
@@ -31,25 +26,11 @@ export class AuthService {
   ): Promise<{ access_token: string; username: string }> {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-    let user: UserDocument;
-
-    try {
-      user = await this.usersService.create({
-        username: dto.username,
-        email: dto.email,
-        password: hashedPassword,
-      });
-    } catch (error: any) {
-      if (error?.code === 11000) {
-        const field = error.keyPattern
-          ? Object.keys(error.keyPattern as Record<string, unknown>)[0]
-          : undefined;
-        throw new ConflictException(
-          field ? `${field} already exists` : 'Duplicate value',
-        );
-      }
-      throw error;
-    }
+    const user = await this.usersService.create({
+      username: dto.username,
+      email: dto.email,
+      password: hashedPassword,
+    });
 
     const payload = { sub: user._id, username: user.username };
     return {
