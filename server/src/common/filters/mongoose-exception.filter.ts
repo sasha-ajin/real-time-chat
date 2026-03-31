@@ -24,17 +24,16 @@ export class MongooseExceptionFilter implements ExceptionFilter {
     if (exception instanceof mongoose.Error.CastError) {
       response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: HttpStatus.BAD_REQUEST,
-        message: `Invalid value for ${exception.path}`,
+        message: 'Invalid value',
         error: 'Bad Request',
       });
       return;
     }
 
     if (exception instanceof mongoose.Error.ValidationError) {
-      const messages = Object.values(exception.errors).map((e) => e.message);
       response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: HttpStatus.BAD_REQUEST,
-        message: messages,
+        message: 'Validation Error',
         error: 'Bad Request',
       });
       return;
