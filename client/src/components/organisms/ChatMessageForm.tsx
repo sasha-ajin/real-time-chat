@@ -45,6 +45,7 @@ function ChatMessageForm({ onSend, disabled }: ChatMessageFormProps) {
           onKeyDown={handleKeyDown}
           disabled={disabled}
           style={{ resize: 'none' }}
+          maxLength={10}
         />
         <PrimarySubmitButtonControl disabled={disabled || !text.trim()}>
           Send
