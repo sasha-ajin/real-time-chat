@@ -90,14 +90,3 @@ Develop a web application for real-time messaging. Optionally, video stories fun
 - Docker Compose for quick startup
 - Tests (at least basic ones)
 
-## Clarifications
-
-The following points were clarified with the team before starting:
-
-1. **Tech stack:** The task specifies SvelteKit, but using React was confirmed as allowed.
-2. **WebSocket authentication:** JWT token must be passed during WebSocket handshake.
-3. **User search:** Exact match or substring search by username is acceptable; no need for full-text search engines like Elasticsearch.
-4. **UI library:** Using any open-source component library is fine; responsiveness is not a focus.
-5. **Lazy loading:** Not required for messages or conversation lists.
-6. **Conversation list behavior:** Reordering conversations on new message and read/unread status are not required.
-7. **Validation:** No specific constraints on field lengths (username, password, message text). The goal is to demonstrate that validation is working.
