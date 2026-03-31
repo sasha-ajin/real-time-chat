@@ -12,7 +12,7 @@ A real-time messaging web application built with NestJS, React, MongoDB, and Soc
 
 See [TASK.md](TASK.md) for the full task description, requirements, and success criteria.
 
-## Clarifications
+### Clarifications
 
 The following points were clarified with the team before starting:
 
