@@ -82,7 +82,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return;
     }
 
-    client.join(data.threadId);
+    await client.join(data.threadId);
   }
 
   @SubscribeMessage('leaveThread')
@@ -90,7 +90,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { threadId: string },
   ) {
-    client.leave(data.threadId);
+    await client.leave(data.threadId);
   }
 
   @SubscribeMessage('sendMessage')
