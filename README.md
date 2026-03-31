@@ -1,6 +1,15 @@
 # Real-time Chat Application
 
-A real-time messaging web application built with NestJS, React, MongoDB, and Socket.IO.
+The task took 10-12 hours spread across 8 days between other work tasks.
+
+- **Mar 19 (~0.5h)** — Project initialization (React, NestJS). Atomic Design structure setup. SignIn/SignUp forms with Formik + Yup.
+- **Mar 20 (~1.5h)** — Backend authentication: JWT, bcrypt, Mongoose, validation. Logout with token blacklist. ConfigModule, duplicate username/email handling.
+- **Mar 21 (~0.5h)** — Redux Toolkit for auth state, localStorage token persistence. Navbar, PrivateRoute, 404 page.
+- **Mar 22 (~0.5h)** — Logout in navigation, hiding private links. Circular dependency resolution (forwardRef) in NestJS, user search endpoint.
+- **Mar 28 (~0.5h)** — Refactoring nickname → userName. Navigation after sign-in/sign-up, user search UI, improved backend error handling in forms.
+- **Mar 29 (~6h)** — Core feature: thread list, WebSocket chat (send/receive messages), thread creation/upsert. Regex escaping, CORS, MongooseExceptionFilter. README: task description, technical decisions.
+- **Mar 30 (~1h)** — Cleanup: removing unused code, env file configuration, user creation refactoring, all-users list implementation.
+- **Mar 31 (~1h)** — UI refactoring (NarrowColumnTemplate), async in ChatGateway, extracting validation constants, message maxLength, README updates (JWT/localStorage).
 
 ## Table of Contents
 
