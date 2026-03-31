@@ -52,7 +52,7 @@ function SearchUsersFormCard({ onSearch }: SearchUsersFormCardProps) {
             name="userName"
             label="Username"
             controlId="userName"
-            placeholder="Enter username"
+            placeholder="Enter username or leave empty"
           />
           <PrimarySubmitButtonGroup>Search</PrimarySubmitButtonGroup>
       </Form>

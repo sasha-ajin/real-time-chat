@@ -1,14 +1,15 @@
 import { useState, useCallback, FormEvent, KeyboardEvent } from 'react';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-type ChatMessageInputProps = {
+import PrimarySubmitButtonControl from 'components/atoms/PrimarySubmitButtonControl';
+
+type ChatMessageFormProps = {
   onSend: (text: string) => void;
   disabled?: boolean;
 };
 
-function ChatMessageInput({ onSend, disabled }: ChatMessageInputProps) {
+function ChatMessageForm({ onSend, disabled }: ChatMessageFormProps) {
   const [text, setText] = useState('');
 
   const handleSubmit = useCallback(
@@ -45,16 +46,12 @@ function ChatMessageInput({ onSend, disabled }: ChatMessageInputProps) {
           disabled={disabled}
           style={{ resize: 'none' }}
         />
-        <Button
-          variant="primary"
-          type="submit"
-          disabled={disabled || !text.trim()}
-        >
+        <PrimarySubmitButtonControl disabled={disabled || !text.trim()}>
           Send
-        </Button>
+        </PrimarySubmitButtonControl>
       </InputGroup>
     </Form>
   );
 }
 
-export default ChatMessageInput;
+export default ChatMessageForm;

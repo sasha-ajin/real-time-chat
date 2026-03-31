@@ -72,7 +72,6 @@ function SignInFormCard() {
             label="Password"
             controlId="password"
             placeholder="Enter password"
-            type="password"
           />
           <PrimarySubmitButtonGroup>Sign In</PrimarySubmitButtonGroup>
       </Form>
