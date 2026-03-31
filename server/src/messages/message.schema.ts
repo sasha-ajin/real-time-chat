@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
+import { MESSAGE_TEXT_MAX_LENGTH } from '../common/constants/validation.constants';
 
 export type MessageDocument = HydratedDocument<Message>;
 
@@ -11,7 +12,7 @@ export class Message {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   senderId: Types.ObjectId;
 
-  @Prop({ required: true, maxlength: 5000 })
+  @Prop({ required: true, maxlength: MESSAGE_TEXT_MAX_LENGTH })
   text: string;
 
   createdAt: Date;

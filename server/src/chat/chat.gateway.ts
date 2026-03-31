@@ -13,6 +13,9 @@ import { AuthService } from '../auth/auth.service';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 import { ThreadsService } from '../threads/threads.service';
 import { MessagesService } from '../messages/messages.service';
+import { ThreadIdDto } from './dto/thread-id.dto';
+import { SendMessageDto } from './dto/send-message.dto';
+import { WsValidationPipe } from './pipes/ws-validation.pipe';
 
 interface AuthenticatedSocketData {
   userId: string;
@@ -70,7 +73,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('joinThread')
   async handleJoinThread(
     @ConnectedSocket() client: AuthenticatedSocket,
-    @MessageBody() data: { threadId: string },
+    @MessageBody(new WsValidationPipe()) data: ThreadIdDto,
   ) {
     const thread = await this.threadsService.findById(data.threadId);
 
@@ -88,7 +91,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('leaveThread')
   async handleLeaveThread(
     @ConnectedSocket() client: AuthenticatedSocket,
-    @MessageBody() data: { threadId: string },
+    @MessageBody(new WsValidationPipe()) data: ThreadIdDto,
   ) {
     await client.leave(data.threadId);
   }
@@ -96,13 +99,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('sendMessage')
   async handleSendMessage(
     @ConnectedSocket() client: AuthenticatedSocket,
-    @MessageBody() data: { threadId: string; text: string },
+    @MessageBody(new WsValidationPipe()) data: SendMessageDto,
   ) {
-    if (!data.text?.trim()) {
-      client.emit('error', { message: 'Message text is required' });
-      return;
-    }
-
     const thread = await this.threadsService.findById(data.threadId);
 
     if (

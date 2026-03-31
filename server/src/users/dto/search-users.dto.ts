@@ -1,8 +1,9 @@
 import { IsOptional, IsString, MaxLength } from 'class-validator';
+import { USERNAME_MAX_LENGTH } from '../../common/constants/validation.constants';
 
 export class SearchUsersDto {
   @IsString()
   @IsOptional()
-  @MaxLength(50)
+  @MaxLength(USERNAME_MAX_LENGTH)
   userName?: string;
 }
